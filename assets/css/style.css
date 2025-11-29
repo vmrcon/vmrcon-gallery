@@ -1,0 +1,126 @@
+body {
+  overflow-x: hidden;
+  overflow-y: hidden;
+  background: #f8fafc;
+}
+#ambient-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  background: #fff;
+  overflow: hidden;
+}
+.glow-point {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(
+    circle,
+    rgba(59, 130, 246, 0.15) 0,
+    rgba(255, 255, 255, 0) 70%
+  );
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  transition: opacity 0.3s;
+  mix-blend-mode: multiply;
+}
+.card-stack {
+  perspective: 1000px;
+  position: relative;
+  height: 400px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@media (min-width: 768px) {
+  .card-stack {
+    height: 500px;
+  }
+}
+.gallery-card {
+  position: absolute;
+  width: 90%;
+  max-width: 340px;
+  height: 100%;
+  max-height: 450px;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, opacity 0.3s, filter 0.3s;
+  cursor: grab;
+  overflow: hidden;
+  user-select: none;
+  touch-action: none;
+  transform-origin: center bottom;
+}
+@media (min-width: 640px) {
+  .gallery-card {
+    width: 700px;
+    max-width: 800px;
+    max-height: 450px;
+  }
+}
+.gallery-card.dragging {
+  transition: none;
+  cursor: grabbing;
+}
+.gallery-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+.lightbox-overlay {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(0, 0, 0, 0.75);
+  transition: all 0.3s;
+}
+.progress-fill {
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.logo-gradient {
+  background: linear-gradient(90deg, #1e293b 0%, #2563eb 50%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hover-jump {
+  display: inline-block;
+  transition: transform 0.2s;
+}
+.hover-jump:hover {
+  transform: translateY(-4px);
+  color: #2563eb;
+}
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+.profile-glow::after {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border-radius: 50%;
+  background: inherit;
+  filter: blur(15px);
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.3s;
+}
+.profile-container:hover .profile-glow::after {
+  opacity: 0.6;
+}
