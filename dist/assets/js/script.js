@@ -22,8 +22,8 @@ const profileLink = "https://x.com/vmrcon";
 
 // --- State ---
 const images = [
-  { id: 1, url: "./assets/img/8082.jpg", title: "Realistic Tiger Rider", isFav: false },
-  { id: 2, url: "./assets/img/8095.jpg", title: "Edo Kingdom From Mountaintop View", isFav: false },
+  { id: 1, url: "./dist/assets/img/8082.jpg", title: "Realistic Tiger Rider", isFav: false },
+  { id: 2, url: "./dist/assets/img/8095.jpg", title: "Edo Kingdom From Mountaintop View", isFav: false },
 ];
 
 let currentIndex = 0;

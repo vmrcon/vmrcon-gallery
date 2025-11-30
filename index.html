@@ -36,7 +36,7 @@
         },
       };
     </script>
-    <link rel="stylesheet" href="./assets/css/style.css" type="text/css" />
+    <link rel="stylesheet" href="./dist/assets/css/style.css" type="text/css" />
   </head>
   <body class="text-slate-800 antialiased min-h-screen flex flex-col">
     <div id="ambient-bg">
@@ -79,9 +79,18 @@
 
           <!-- Desktop Nav -->
           <div class="hidden sm:flex items-center space-x-2">
-            <a href="#" class="text-slate-600 hover:text-slate-900 px-3 py-2 rounded-md text-sm font-medium">About</a>
-            <a href="https://vmrcon.netlify.app" class="bg-blue-100 text-blue-700 px-4 py-1.5 rounded-full text-sm font-semibold">Gallery</a>
-          </div> 
+            <a
+              href="#"
+              id="about-link"
+              class="text-slate-600 hover:text-slate-900 px-3 py-2 rounded-md text-sm font-medium"
+              ><span id="about-anim-text">About</span></a
+            >
+            <a
+              href="https://vmrcon.netlify.app"
+              class="bg-blue-100 text-blue-700 px-4 py-1.5 rounded-full text-sm font-semibold"
+              >Gallery</a
+            >
+          </div>
 
           <!-- User Profile with Animation -->
           <div class="flex-shrink-0 profile-container relative z-10">
@@ -90,7 +99,7 @@
             >
               <img
                 class="h-full w-full rounded-full object-cover border-2 border-white"
-                src="./assets/img/profile.png"
+                src="./dist/assets/img/profile.png"
                 alt="Profile"
               />
             </div>
@@ -276,6 +285,93 @@
       <span id="toastMsg">Action completed</span>
     </div>
 
-    <script src="./assets/js/script.js" type="text/javascript" defer></script>
+    <script
+      src="./dist/assets/js/script.js"
+      type="text/javascript"
+      defer
+    ></script>
+    <script>
+      // Fluid animated About link if href is '#'
+      document.addEventListener('DOMContentLoaded', () => {
+        const about = document.getElementById('about-link');
+        const aboutText = document.getElementById('about-anim-text');
+        if (!about || !aboutText || about.getAttribute('href') !== '#') return;
+        const original = 'About';
+        const alt = 'not yet available';
+        let animating = false;
+        let animationFrame;
+
+        // Helper: morph each character smoothly
+        function morphText(from, to, cb) {
+          animating = true;
+          const maxLen = Math.max(from.length, to.length);
+          let progress = 0;
+          function step() {
+            let out = '';
+            for (let i = 0; i < maxLen; i++) {
+              if (i < progress) {
+                out += to[i] || '';
+              } else if (from[i]) {
+                // Animate with a random char for a more fluid effect
+                out += String.fromCharCode(33 + Math.floor(Math.random() * 94));
+              } else {
+                out += ' ';
+              }
+            }
+            aboutText.textContent = out;
+            progress++;
+            if (progress <= maxLen) {
+              animationFrame = setTimeout(step, 32);
+            } else {
+              aboutText.textContent = to;
+              animating = false;
+              if (cb) cb();
+            }
+          }
+          step();
+        }
+
+        function morphBack(cb) {
+          animating = true;
+          const maxLen = Math.max(original.length, alt.length);
+          let progress = maxLen;
+          function step() {
+            let out = '';
+            for (let i = 0; i < maxLen; i++) {
+              if (i < progress) {
+                out += original[i] || '';
+              } else if (alt[i]) {
+                out += String.fromCharCode(33 + Math.floor(Math.random() * 94));
+              } else {
+                out += ' ';
+              }
+            }
+            aboutText.textContent = out;
+            progress--;
+            if (progress >= 0) {
+              animationFrame = setTimeout(step, 32);
+            } else {
+              aboutText.textContent = original;
+              animating = false;
+              if (cb) cb();
+            }
+          }
+          step();
+        }
+
+        about.addEventListener('mouseenter', () => {
+          if (aboutText.textContent !== alt && !animating) {
+            clearTimeout(animationFrame);
+            morphText(original, alt);
+          }
+        });
+        about.addEventListener('mouseleave', () => {
+          if (aboutText.textContent !== original && !animating) {
+            clearTimeout(animationFrame);
+            morphBack();
+          }
+        });
+      });
+    </script>
   </body>
 </html>
