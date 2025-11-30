@@ -24,6 +24,7 @@ const profileLink = "https://x.com/vmrcon";
 const images = [
   { id: 1, url: "./dist/assets/img/8082.jpg", title: "Realistic Tiger Rider", isFav: false },
   { id: 2, url: "./dist/assets/img/8095.jpg", title: "Edo Kingdom From Mountaintop View", isFav: false },
+  { id: 3, url: "./dist/assets/img/8165.jpg", title: "Coffee Shop", isFav: false},
 ];
 
 let currentIndex = 0;
